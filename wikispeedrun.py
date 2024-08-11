@@ -1,25 +1,25 @@
 import requests
 import re
-from collections import  deque
+from collections import deque
+from bs4 import BeautifulSoup
 
 
 start = input("What's the starting point: ")
 target = input("What's the target: ")
 
+#ai introduced me to beautifulsoup and how to use it shout chatgpt ong
 def get_links(link):
-    links = []
-    linkpattern = r'(/wiki/[^ "]+)'
+    links = set()
     url = f'https://en.wikipedia.org/wiki/{link}'
     response = requests.get(url)
-    text = response.text
-    dirtylinks = re.findall(linkpattern, text)
-    while "/wiki/Main_Page" in dirtylinks:
-            dirtylinks.remove("/wiki/Main_Page")
-    for l in dirtylinks:
-        if ":" not in l and l not in links:
-            links.append(l)
-            
-    return set(links)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    
+    for a_tag in soup.find_all('a', href=True):
+        href = a_tag['href']
+        if href.startswith('/wiki/') and not re.search(r':', href) and href != '/wiki/Main_Page':
+            links.add(href)
+    
+    return links
 
 def wiki_speedrun(start, target):
     visited = set()
@@ -33,6 +33,10 @@ def wiki_speedrun(start, target):
         
         if current_page in visited:
             continue
+
+        if current_page == "/wiki/Case_sensitivity":
+            continue 
+        #dude what the hell, its immune to the visited set and this???
         
         visited.add(current_page)
 
@@ -41,14 +45,8 @@ def wiki_speedrun(start, target):
         for link in links:
             queue.append((link, path + [link]))
             print(f"Added", link, "to queue!")
-
+    return("got nothing boss")
 path = wiki_speedrun(start, target)
 print(path)
-
-
-
-
-
-
 
 

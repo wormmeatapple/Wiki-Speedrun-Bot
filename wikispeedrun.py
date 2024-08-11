@@ -7,7 +7,6 @@ from bs4 import BeautifulSoup
 start = input("What's the starting point: ")
 target = input("What's the target: ")
 
-#ai introduced me to beautifulsoup and how to use it shout chatgpt ong
 def get_links(link):
     links = set()
     url = f'https://en.wikipedia.org/wiki/{link}'
@@ -34,7 +33,7 @@ def wiki_speedrun(start, target):
         if current_page in visited:
             continue
 
-        if current_page == "/wiki/Case_sensitivity":
+        if current_page == "/wiki/Case_sensitivity/":
             continue 
         #dude what the hell, its immune to the visited set and this???
         
@@ -48,5 +47,11 @@ def wiki_speedrun(start, target):
     return("got nothing boss")
 path = wiki_speedrun(start, target)
 print(path)
+
+
+
+
+
+
 
 

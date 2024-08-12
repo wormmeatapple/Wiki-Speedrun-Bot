@@ -9,18 +9,21 @@ target = input("What's the target: ")
 
 def get_links(link):
     links = set()
-    url = f'https://en.wikipedia.org/wiki/{link}'
+    url = f'https://en.wikipedia.org{link}'
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
     
     for a_tag in soup.find_all('a', href=True):
         href = a_tag['href']
         if href.startswith('/wiki/') and not re.search(r':', href) and href != '/wiki/Main_Page':
+            if href == "/wiki/Case_sensitivity":
+                continue
             links.add(href)
     
     return links
 
 def wiki_speedrun(start, target):
+    scanned = 0
     visited = set()
     queue = deque([(start, [start])])
 
@@ -28,18 +31,15 @@ def wiki_speedrun(start, target):
         current_page, path = queue.popleft()
 
         if current_page == target:
-            return path
+            return (f'Scanned this many pages: ', scanned  'and found this path', path)
         
         if current_page in visited:
             continue
-
-        if current_page == "/wiki/Case_sensitivity/":
-            continue 
-        #dude what the hell, its immune to the visited set and this???
         
         visited.add(current_page)
 
         links = get_links(current_page)
+        scanned += 1
 
         for link in links:
             queue.append((link, path + [link]))

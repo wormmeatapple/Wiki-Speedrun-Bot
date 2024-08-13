@@ -2,10 +2,8 @@ import requests
 import re
 from collections import deque
 from bs4 import BeautifulSoup
+import time 
 
-
-start = input("What's the starting point: ")
-target = input("What's the target: ")
 
 def get_links(link):
     links = set()
@@ -31,7 +29,7 @@ def wiki_speedrun(start, target):
         current_page, path = queue.popleft()
 
         if current_page == target:
-            return (f'Scanned this many pages: ', scanned  'and found this path', path)
+            return (f'Scanned this many pages: {scanned}, and found this path: ', path)
         
         if current_page in visited:
             continue
@@ -45,7 +43,18 @@ def wiki_speedrun(start, target):
             queue.append((link, path + [link]))
             print(f"Added", link, "to queue!")
     return("got nothing boss")
+
+
+start = ("/wiki/Greenham_Lock")
+target = ("/wiki/Canal_lock")
+
+start_time = time.time()
 path = wiki_speedrun(start, target)
+end_time = time.time()
+duration = start_time - end_time
+
+#average time to solve 1 link removed = 25.52 sec
+print(f"Time taken: {duration:.2f} seconds")
 print(path)
 
 

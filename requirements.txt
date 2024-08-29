@@ -1,0 +1,15 @@
+beautifulsoup4==4.12.3
+bs4==0.0.2
+certifi==2024.7.4
+charset-normalizer==3.3.2
+idna==3.7
+Naked==0.1.32
+pygame==2.6.0
+PyYAML==6.0.2
+regex==2024.7.24
+requests==2.32.3
+setuptools==72.1.0
+shellescape==3.8.1
+soupsieve==2.5
+urllib3==2.2.2
+wheel==0.43.0

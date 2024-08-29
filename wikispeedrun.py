@@ -45,15 +45,13 @@ def wiki_speedrun(start, target):
     return("got nothing boss")
 
 
-start = ("/wiki/Greenham_Lock")
-target = ("/wiki/Canal_lock")
+start = input("Enter a starting site: ")
+target = input("Enter an ending site: ")
 
 start_time = time.time()
 path = wiki_speedrun(start, target)
 end_time = time.time()
 duration = start_time - end_time
-
-#average time to solve 1 link removed = 25.52 sec
 print(f"Time taken: {duration:.2f} seconds")
 print(path)
 
